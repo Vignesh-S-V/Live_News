@@ -214,8 +214,12 @@ const NAV_CATEGORIES = [
   {key:'sports', label:'விளையாட்டு'},
   {key:'technology', label:'தொழில்நுட்பம்'},
   {key:'environment', label:'சுற்றுச்சூழல்'},
-  {key:'world', label:'உலகம்'}
+  {key:'world', label:'உலகம்'},
+  {key:'india_impact', label:'🌍 உலகம் → இந்தியா தாக்கம்'}
 ];
+
+// Curated real-article search query for the India-impact tab (war/conflict/economic events + India)
+const INDIA_IMPACT_QUERY = '(war OR conflict OR sanctions OR "interest rate" OR "repo rate" OR tariff OR "crude oil" OR "trade deal") AND India';
 
 const STATES = [
   {en:'Tamil Nadu', ta:'தமிழ்நாடு'},
@@ -249,7 +253,9 @@ NAV_CATEGORIES.forEach(cat => {
     currentCategory = cat.key;
     currentSearchQuery = '';
     searchInput.value = '';
-    document.getElementById('section-title').textContent = 'அண்மைச் செய்திகள்';
+    document.getElementById('section-title').textContent = cat.key === 'india_impact'
+      ? 'உலக நிகழ்வுகள் — இந்தியாவுக்கான தாக்கம்'
+      : 'அண்மைச் செய்திகள்';
     document.querySelectorAll('.tab-btn').forEach(b => b.classList.toggle('active', b === btn));
     fetchNews();
   };
@@ -267,11 +273,14 @@ STATES.forEach(st => {
   item.textContent = st.ta;
   item.onclick = () => {
     currentStateFilter = st;
-    currentSearchQuery = '';
-    searchInput.value = '';
+    currentCategory = 'top';
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
     stateBtn.textContent = st.ta;
     stateBtn.classList.add('on');
     stateMenu.classList.remove('open');
+    document.getElementById('section-title').textContent = currentSearchQuery
+      ? `"${currentSearchQuery}" + ${st.ta} — தேடல் முடிவுகள்`
+      : 'அண்மைச் செய்திகள்';
     fetchNews();
   };
   stateGrid.appendChild(item);
@@ -283,13 +292,13 @@ document.onclick = () => stateMenu.classList.remove('open');
 // Search
 function doSearch(){
   currentSearchQuery = searchInput.value.trim();
+  currentCategory = 'top';
   document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-  currentStateFilter = null;
-  stateBtn.textContent = 'இந்தியா ▾';
-  stateBtn.classList.remove('on');
+  // NOTE: currentStateFilter is intentionally NOT cleared here, so
+  // "state + search" (e.g. Tamil Nadu + "tirupur") combine together.
 
   document.getElementById('section-title').textContent = currentSearchQuery
-    ? `"${currentSearchQuery}" — தேடல் முடிவுகள்`
+    ? (currentStateFilter ? `"${currentSearchQuery}" + ${currentStateFilter.ta} — தேடல் முடிவுகள்` : `"${currentSearchQuery}" — தேடல் முடிவுகள்`)
     : 'அண்மைச் செய்திகள்';
 
   fetchNews();
@@ -301,7 +310,7 @@ searchInput.addEventListener('keydown', (e) => { if(e.key === 'Enter') doSearch(
 function populateYearMonth(){
   const currentYear = new Date().getFullYear();
   let yearsHtml = '<option value="">அனைத்து வருடம்</option>';
-  for(let y = currentYear; y >= currentYear - 9; y--){
+  for(let y = currentYear; y >= currentYear - 49; y--){
     yearsHtml += `<option value="${y}">${y}</option>`;
   }
   yearSelect.innerHTML = yearsHtml;
@@ -342,7 +351,11 @@ async function fetchNews(){
   const params = new URLSearchParams({ language: lang });
 
   if(currentSearchQuery){
+    // search box text combines with state filter if one is selected
     params.set('query', currentSearchQuery);
+    if(currentStateFilter) params.set('state', currentStateFilter.en);
+  } else if(currentCategory === 'india_impact'){
+    params.set('query', INDIA_IMPACT_QUERY);
   } else {
     if(currentCategory !== 'top') params.set('category', currentCategory);
     if(currentStateFilter) params.set('state', currentStateFilter.en);
@@ -365,7 +378,7 @@ async function fetchNews(){
       desc: a.description || '',
       date: (a.pubDate || '').slice(0, 10) || new Date().toISOString().slice(0, 10),
       source: a.source_id || 'News',
-      category: currentCategory
+      category: currentCategory === 'india_impact' ? 'இந்தியா தாக்கம்' : currentCategory
     }));
     renderList(currentNews);
   } catch (err) {
@@ -416,7 +429,8 @@ async function openAnalysis(item){
       body: JSON.stringify({
         title: item.title,
         desc: item.desc,
-        date: item.date
+        date: item.date,
+        focus: currentCategory === 'india_impact' ? 'india_economic_impact' : null
       })
     });
 
@@ -444,6 +458,11 @@ async function openAnalysis(item){
         <h4>🔮 4. எதிர்கால தாக்கம் & முன்னெச்சரிக்கை</h4>
         <p>${p.future_outlook}</p>
       </div>
+      ${p.india_effect ? `
+      <div class="deep-box" style="border-left-color:#c0392b;">
+        <h4>💰 5. இந்தியாவுக்கான தாக்கம் (செலவு / பொருளாதாரம்)</h4>
+        <p>${p.india_effect}</p>
+      </div>` : ''}
     `;
   } catch (err) {
     container.innerHTML = `<div class="err-box">பகுப்பாய்வு பிழை: ${err.message}</div>`;
