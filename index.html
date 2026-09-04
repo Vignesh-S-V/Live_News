@@ -297,12 +297,44 @@ function doSearch(){
 searchBtn.onclick = doSearch;
 searchInput.addEventListener('keydown', (e) => { if(e.key === 'Enter') doSearch(); });
 
-// Filter Change
-yearSelect.onchange = applyDateFilter;
-monthSelect.onchange = applyDateFilter;
+// ---------- Year / Month setup (static list, NOT derived from fetched news) ----------
+function populateYearMonth(){
+  const currentYear = new Date().getFullYear();
+  let yearsHtml = '<option value="">அனைத்து வருடம்</option>';
+  for(let y = currentYear; y >= currentYear - 9; y--){
+    yearsHtml += `<option value="${y}">${y}</option>`;
+  }
+  yearSelect.innerHTML = yearsHtml;
+
+  const months = ["01","02","03","04","05","06","07","08","09","10","11","12"];
+  const mNames = ["ஜனவரி","பிப்ரவரி","மார்ச்","ஏப்ரல்","மே","ஜூன்","ஜூலை","ஆகஸ்ட்","செப்டம்பர்","அக்டோபர்","நவம்பர்","டிசம்பர்"];
+  monthSelect.innerHTML = '<option value="">அனைத்து மாதம்</option>' + months.map((m, i) => `<option value="${m}">${mNames[i]}</option>`).join('');
+}
+
+function buildDateRange(){
+  const y = yearSelect.value;
+  const m = monthSelect.value;
+  if(!y && !m) return {};
+
+  const year = y || String(new Date().getFullYear());
+  if(m){
+    const lastDay = new Date(parseInt(year), parseInt(m), 0).getDate();
+    return {
+      from_date: `${year}-${m}-01`,
+      to_date: `${year}-${m}-${String(lastDay).padStart(2,'0')}`
+    };
+  }
+  return { from_date: `${year}-01-01`, to_date: `${year}-12-31` };
+}
+
+// Year/Month change → fresh SERVER-SIDE fetch for that date range (not client filter)
+yearSelect.onchange = fetchNews;
+monthSelect.onchange = fetchNews;
+
 document.getElementById('reset-btn').onclick = () => {
-  yearSelect.value = ''; monthSelect.value = '';
-  renderList(currentNews);
+  yearSelect.value = '';
+  monthSelect.value = '';
+  fetchNews();
 };
 
 async function fetchNews(){
@@ -316,9 +348,18 @@ async function fetchNews(){
     if(currentStateFilter) params.set('state', currentStateFilter.en);
   }
 
+  const range = buildDateRange();
+  if(range.from_date) params.set('from_date', range.from_date);
+  if(range.to_date) params.set('to_date', range.to_date);
+
+  grid.innerHTML = '<div style="grid-column:1/-1; text-align:center; padding:30px;">ஏற்றுகிறது...</div>';
+  document.getElementById('result-count').textContent = '';
+
   try {
     const res = await fetch(`${API_BACKEND_URL}/api/news?${params.toString()}`);
     const data = await res.json();
+    if(!res.ok) throw new Error((data && data.error) || 'Server error');
+
     currentNews = (Array.isArray(data) ? data : (data.results || [])).map(a => ({
       title: a.title || 'தலைப்பு இல்லை',
       desc: a.description || '',
@@ -326,31 +367,10 @@ async function fetchNews(){
       source: a.source_id || 'News',
       category: currentCategory
     }));
-    populateFilters(currentNews);
-    applyDateFilter();
+    renderList(currentNews);
   } catch (err) {
-    grid.innerHTML = '<div style="grid-column:1/-1; color:red;">செய்திகளைப் பெறுவதில் பிழை ஏற்பட்டது.</div>';
+    grid.innerHTML = `<div style="grid-column:1/-1; padding:20px;" class="err-box">செய்திகளைப் பெறுவதில் பிழை: ${err.message}<br><span style="font-size:11px;">(API plan-ல் date-range archive இல்லனா இந்த error வரலாம்)</span></div>`;
   }
-}
-
-function populateFilters(list){
-  const years = [...new Set(list.map(n => n.date.slice(0,4)))].filter(Boolean).sort().reverse();
-  yearSelect.innerHTML = '<option value="">அனைத்து வருடம்</option>' + years.map(y => `<option value="${y}">${y}</option>`).join('');
-  
-  const months = ["01","02","03","04","05","06","07","08","09","10","11","12"];
-  const mNames = ["ஜனவரி","பிப்ரவரி","மார்ச்","ஏப்ரல்","மே","ஜூன்","ஜூலை","ஆகஸ்ட்","செப்டம்பர்","அக்டோபர்","நவம்பர்","டிசம்பர்"];
-  monthSelect.innerHTML = '<option value="">அனைத்து மாதம்</option>' + months.map((m, i) => `<option value="${m}">${mNames[i]}</option>`).join('');
-}
-
-function applyDateFilter(){
-  const y = yearSelect.value;
-  const m = monthSelect.value;
-  const filtered = currentNews.filter(n => {
-    if(y && !n.date.startsWith(y)) return false;
-    if(m && n.date.slice(5,7) !== m) return false;
-    return true;
-  });
-  renderList(filtered);
 }
 
 function renderList(list){
@@ -440,6 +460,7 @@ setInterval(() => {
 }, 600000);
 
 document.getElementById('today-date').textContent = new Date().toLocaleDateString('ta-IN', {year:'numeric', month:'long', day:'numeric'});
+populateYearMonth();
 fetchNews();
 </script>
 </body>
