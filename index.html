@@ -3,9 +3,9 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>வேற்றுமுகம் — இந்திய செய்திகள்</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Tiro+Tamil:ital@0;1&family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<title>வேற்றுமுகம் — இந்திய செய்திகள் & ஆழமான பின்னணி</title>
+<link rel="preconnect" href="[https://fonts.googleapis.com](https://fonts.googleapis.com)">
+<link href="[https://fonts.googleapis.com/css2?family=Tiro+Tamil:ital@0;1&family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&display=swap](https://fonts.googleapis.com/css2?family=Tiro+Tamil:ital@0;1&family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&display=swap)" rel="stylesheet">
 <style>
   :root{
     --paper:#f4f1e8;
@@ -19,7 +19,6 @@
     --wash:#eae4d2;
   }
   *{box-sizing:border-box;}
-  ::selection{background:var(--gold); color:var(--paper);}
   body{
     margin:0;
     background:var(--paper);
@@ -29,199 +28,115 @@
   }
   .tamil{font-family:'Tiro Tamil','Inter',sans-serif;}
   h1,h2,h3,.display{font-family:'Fraunces',serif;}
-  a{color:var(--indigo);}
-  @media (prefers-reduced-motion: reduce){ *{animation:none !important; transition:none !important;} }
-
-  /* ---------- Ticker ---------- */
+  
   .ticker-bar{
-    background:var(--ink);
-    color:var(--paper);
-    overflow:hidden;
-    white-space:nowrap;
-    font-size:12.5px;
-    padding:6px 0;
+    background:var(--ink); color:var(--paper); overflow:hidden;
+    white-space:nowrap; font-size:12.5px; padding:6px 0;
   }
   .ticker-track{
-    display:inline-block;
-    padding-left:100%;
-    animation:ticker 38s linear infinite;
+    display:inline-block; padding-left:100%;
+    animation:ticker 40s linear infinite;
   }
   @keyframes ticker{ from{transform:translateX(0);} to{transform:translateX(-100%);} }
   .ticker-track span{margin-right:36px; opacity:.9;}
-  .ticker-track span b{color:var(--gold); font-weight:700;}
+  .ticker-track span b{color:var(--gold);}
 
-  /* ---------- Masthead ---------- */
   .masthead{
-    max-width:1180px; margin:0 auto;
-    padding:26px 24px 14px;
+    max-width:1180px; margin:0 auto; padding:26px 24px 14px;
     display:flex; align-items:flex-end; justify-content:space-between;
-    flex-wrap:wrap; gap:10px;
-    border-bottom:1px solid var(--ink);
+    flex-wrap:wrap; gap:10px; border-bottom:1px solid var(--ink);
   }
   .brand{display:flex; align-items:baseline; gap:10px;}
   .brand .mark{
-    width:34px; height:34px;
-    background:var(--ink);
-    color:var(--paper);
+    width:34px; height:34px; background:var(--ink); color:var(--paper);
     display:inline-flex; align-items:center; justify-content:center;
     font-family:'Fraunces',serif; font-weight:700; font-size:18px;
-    transform:translateY(2px);
   }
-  .brand h1{font-size:34px; font-weight:700; margin:0; letter-spacing:-0.3px;}
+  .brand h1{font-size:32px; font-weight:700; margin:0;}
   .brand .sub{font-size:12.5px; color:var(--ink-soft); font-family:'Tiro Tamil',serif;}
-  .dateline{font-size:12.5px; color:var(--ink-soft); text-align:right;}
+  .dateline{font-size:12.5px; color:var(--ink-soft);}
 
-  /* ---------- Nav (folder-tab style) ---------- */
   nav.tabs{
-    max-width:1180px; margin:0 auto;
-    padding:0 24px;
-    display:flex; align-items:flex-end; gap:2px;
-    flex-wrap:wrap;
-    position:relative;
-    z-index:20;
+    max-width:1180px; margin:0 auto; padding:0 24px;
+    display:flex; align-items:flex-end; gap:2px; flex-wrap:wrap;
   }
   .tab-btn{
-    font-family:'Inter',sans-serif;
-    font-size:14px; font-weight:600;
-    padding:10px 16px 9px;
-    background:var(--wash);
-    color:var(--ink-soft);
-    border:1px solid var(--rule);
-    border-bottom:none;
-    clip-path:polygon(6% 0, 94% 0, 100% 100%, 0% 100%);
+    font-size:13.5px; font-weight:600; padding:9px 15px;
+    background:var(--wash); color:var(--ink-soft); border:1px solid var(--rule);
+    border-bottom:none; clip-path:polygon(6% 0, 94% 0, 100% 100%, 0% 100%);
     cursor:pointer;
-    margin-bottom:-1px;
   }
   .tab-btn.active{
-    background:var(--card);
-    color:var(--ink);
-    border-color:var(--ink);
-    border-bottom:1px solid var(--card);
-    font-weight:700;
+    background:var(--card); color:var(--ink); border-color:var(--ink); font-weight:700;
   }
-  .tab-btn:hover:not(.active){color:var(--ink);}
   .state-wrap{position:relative;}
   .state-btn{
-    font-family:'Inter',sans-serif; font-size:14px; font-weight:600;
-    padding:10px 16px 9px;
-    background:var(--wash); color:var(--ink-soft);
-    border:1px solid var(--rule); border-bottom:none;
-    clip-path:polygon(6% 0, 94% 0, 100% 100%, 0% 100%);
-    cursor:pointer; margin-bottom:-1px;
+    font-size:13.5px; font-weight:600; padding:9px 15px;
+    background:var(--wash); color:var(--ink-soft); border:1px solid var(--rule);
+    border-bottom:none; clip-path:polygon(6% 0, 94% 0, 100% 100%, 0% 100%);
+    cursor:pointer;
   }
   .state-btn.on{background:var(--indigo); color:#fff; border-color:var(--indigo);}
   .state-menu{
-    display:none;
-    position:absolute; top:calc(100% + 2px); left:0;
-    background:var(--card);
-    border:1px solid var(--ink);
-    width:420px; max-width:82vw;
-    padding:14px;
-    box-shadow:6px 6px 0 rgba(25,23,18,0.08);
+    display:none; position:absolute; top:100%; left:0;
+    background:var(--card); border:1px solid var(--ink); width:380px;
+    max-width:85vw; padding:12px; z-index:30; box-shadow:6px 6px 0 rgba(0,0,0,0.06);
   }
   .state-menu.open{display:block;}
-  .state-menu .clear-row{
-    display:flex; justify-content:space-between; align-items:center;
-    padding-bottom:10px; margin-bottom:10px; border-bottom:1px solid var(--rule);
-    font-size:12.5px; color:var(--ink-soft);
-  }
-  .state-menu .clear-row button{
-    background:none; border:none; color:var(--indigo); font-size:12.5px; cursor:pointer; text-decoration:underline;
-  }
-  .state-grid{
-    display:grid; grid-template-columns:1fr 1fr; gap:2px 18px;
-    max-height:320px; overflow-y:auto;
-  }
-  .state-item{
-    font-size:13.5px; padding:6px 4px;
-    cursor:pointer; color:var(--ink);
-    display:flex; justify-content:space-between; gap:6px;
-    border-bottom:1px dotted var(--rule);
-  }
+  .state-grid{display:grid; grid-template-columns:1fr 1fr; gap:6px; max-height:260px; overflow-y:auto;}
+  .state-item{font-size:13px; padding:5px; cursor:pointer; border-bottom:1px dotted var(--rule);}
   .state-item:hover{color:var(--gold);}
-  .state-item .num{color:var(--ink-soft); font-variant-numeric:tabular-nums; font-size:11px;}
-  .state-item.tn{font-weight:700;}
 
-  /* ---------- Filter strip ---------- */
   .filter-strip{
-    max-width:1180px; margin:16px auto 0; padding:12px 24px;
+    max-width:1180px; margin:16px auto 0; padding:10px 24px;
     display:flex; align-items:center; gap:10px; flex-wrap:wrap;
-    background:var(--wash);
-    border-top:1px solid var(--rule); border-bottom:1px solid var(--rule);
+    background:var(--wash); border-top:1px solid var(--rule); border-bottom:1px solid var(--rule);
   }
-  select{
-    font-family:'Inter',sans-serif; font-size:13.5px;
-    padding:7px 10px; border:1px solid var(--ink); background:var(--card); color:var(--ink);
-  }
-  .btn.ghost{background:transparent; color:var(--ink); padding:8px 16px; border:1px solid var(--ink); cursor:pointer; font-weight:600;}
-  .btn.ghost:hover{opacity:.85;}
-  .status-pill{
-    font-size:11.5px; padding:4px 10px; border:1px solid var(--rule); color:var(--ink-soft);
-  }
+  select{padding:6px 10px; border:1px solid var(--ink); background:var(--card);}
+  .status-pill{font-size:11.5px; padding:3px 8px; border:1px solid var(--rule); color:var(--ink-soft);}
   .status-pill.live{border-color:var(--gold); color:var(--gold); font-weight:700;}
 
-  /* ---------- Main / hero ---------- */
-  main{max-width:1180px; margin:0 auto; padding:26px 24px 10px;}
+  main{max-width:1180px; margin:0 auto; padding:20px 24px;}
   .section-label{
-    font-size:12.5px; color:var(--gold); font-weight:700; font-family:'Tiro Tamil',serif;
-    margin-bottom:10px; padding-bottom:6px; border-bottom:2px solid var(--ink);
-    display:flex; justify-content:space-between; align-items:baseline;
+    font-size:13px; color:var(--gold); font-weight:700; margin-bottom:15px;
+    padding-bottom:5px; border-bottom:2px solid var(--ink); display:flex; justify-content:space-between;
   }
-  .hero{
-    display:grid; grid-template-columns:1.5fr 1fr; gap:26px;
-    padding-bottom:26px; margin-bottom:26px; border-bottom:1px solid var(--rule);
-  }
-  .hero-main{cursor:pointer;}
-  .hero-main .cat{font-size:11.5px; color:var(--gold); font-weight:700; font-family:'Tiro Tamil',serif;}
-  .hero-main h2{font-size:38px; line-height:1.15; margin:8px 0 12px;}
-  .hero-main p{font-size:15px; color:var(--ink-soft); max-width:62ch;}
-  .hero-side{display:flex; flex-direction:column; gap:16px;}
-  .hero-side .item{
-    cursor:pointer; padding-bottom:14px; border-bottom:1px dotted var(--rule);
-  }
-  .hero-side .item:last-child{border-bottom:none;}
-  .hero-side .cat{font-size:10.5px; color:var(--gold); font-weight:700; font-family:'Tiro Tamil',serif;}
-  .hero-side h4{font-size:16.5px; margin:4px 0; line-height:1.3; font-family:'Fraunces',serif; font-weight:600;}
-  .hero-side .meta, .hero-main .meta{font-size:12px; color:var(--ink-soft);}
-
-  .empty{padding:60px 20px; text-align:center; color:var(--ink-soft); border:1px dashed var(--rule);}
-  .grid{display:grid; grid-template-columns:repeat(auto-fill, minmax(270px,1fr)); gap:20px 24px;}
+  .grid{display:grid; grid-template-columns:repeat(auto-fill, minmax(280px,1fr)); gap:20px;}
   .card{
     background:var(--card); border:1px solid var(--rule); border-top:3px solid var(--ink);
-    padding:16px; cursor:pointer; display:flex; flex-direction:column; gap:7px;
+    padding:16px; cursor:pointer; display:flex; flex-direction:column; gap:8px;
+    transition:transform .15s;
   }
-  .card:hover{border-top-color:var(--gold);}
-  .card .cat{font-size:10.5px; color:var(--gold); font-weight:700; font-family:'Tiro Tamil',serif;}
-  .card h3{font-size:17.5px; margin:0; line-height:1.32; font-weight:600;}
-  .card p{font-size:13px; color:var(--ink-soft); margin:0; flex-grow:1;}
-  .card .meta{font-size:11.5px; color:var(--ink-soft); border-top:1px solid var(--rule); padding-top:7px; display:flex; justify-content:space-between;}
+  .card:hover{transform:translateY(-2px); border-top-color:var(--gold);}
+  .card .cat{font-size:11px; color:var(--gold); font-weight:700;}
+  .card h3{font-size:16px; margin:0; line-height:1.35;}
+  .card p{font-size:12.5px; color:var(--ink-soft); margin:0; flex-grow:1;}
+  .card .meta{font-size:11px; color:var(--ink-soft); border-top:1px solid var(--rule); padding-top:6px; display:flex; justify-content:space-between;}
 
-  /* ---------- Modal ---------- */
-  .overlay{position:fixed; inset:0; background:rgba(20,18,14,.55); display:none; align-items:flex-start; justify-content:center; padding:40px 16px; overflow-y:auto; z-index:50;}
+  /* ---------- Modal (4-Deep Sections) ---------- */
+  .overlay{position:fixed; inset:0; background:rgba(0,0,0,.6); display:none; align-items:center; justify-content:center; padding:20px; z-index:100;}
   .overlay.open{display:flex;}
-  .modal{background:var(--paper); max-width:680px; width:100%; border:1px solid var(--ink); box-shadow:8px 8px 0 rgba(25,23,18,0.12);}
-  .modal-head{padding:24px 28px 18px; border-bottom:1px solid var(--ink); position:relative;}
-  .modal-head .cat{font-size:11.5px; color:var(--gold); font-weight:700; font-family:'Tiro Tamil',serif;}
-  .modal-head h2{font-size:25px; margin:6px 0 6px; line-height:1.28;}
-  .modal-head .meta{font-size:12.5px; color:var(--ink-soft);}
-  .close-btn{position:absolute; top:16px; right:20px; background:none; border:none; font-size:22px; cursor:pointer; color:var(--ink);}
-  .modal-body{padding:22px 28px 28px;}
-  .modal-body .desc{font-size:14.5px; color:var(--ink-soft); margin-bottom:18px;}
-  .section{margin-bottom:18px;}
-  .section h4{font-size:12.5px; color:var(--indigo); margin:0 0 6px; font-weight:700; border-bottom:1px solid var(--rule); padding-bottom:4px;}
-  .section p{font-size:14px; margin:0; font-family:'Tiro Tamil','Inter',serif; line-height:1.72;}
-  .loading-box{display:flex; align-items:center; gap:10px; padding:16px 0; color:var(--ink-soft); font-size:13.5px;}
-  .spinner{width:15px; height:15px; border:2.5px solid var(--rule); border-top-color:var(--gold); border-radius:50%; animation:spin .8s linear infinite;}
-  @keyframes spin{to{transform:rotate(360deg);}}
-  .err-box{padding:13px; border:1px solid var(--danger); color:var(--danger); font-size:13px; background:#fbebe9;}
-  .retry-btn{margin-top:8px; font-size:12.5px; text-decoration:underline; background:none; border:none; color:var(--indigo); cursor:pointer; padding:0;}
-
-  footer{max-width:1180px; margin:30px auto 0; padding:18px 24px 40px; font-size:11.5px; color:var(--ink-soft); border-top:1px solid var(--rule);}
-
-  @media (max-width:760px){
-    .hero{grid-template-columns:1fr;}
-    .brand h1{font-size:26px;}
+  .modal{
+    background:var(--paper); max-width:760px; width:100%; max-height:90vh;
+    overflow-y:auto; border:2px solid var(--ink); box-shadow:8px 8px 0 rgba(0,0,0,0.15);
   }
+  .modal-head{padding:20px; border-bottom:1px solid var(--ink); position:relative;}
+  .modal-head h2{font-size:22px; margin:6px 0;}
+  .close-btn{position:absolute; top:16px; right:16px; background:none; border:none; font-size:24px; cursor:pointer;}
+  .modal-body{padding:20px;}
+  
+  .deep-box{
+    margin-bottom:16px; padding:14px; background:var(--card);
+    border:1px solid var(--rule); border-left:4px solid var(--indigo);
+  }
+  .deep-box.history{border-left-color:#8e44ad;}
+  .deep-box.science{border-left-color:#d35400;}
+  .deep-box.future{border-left-color:#27ae60;}
+  .deep-box h4{margin:0 0 6px 0; font-size:13.5px; color:var(--ink); font-weight:700;}
+  .deep-box p{margin:0; font-size:13.5px; font-family:'Tiro Tamil',serif; line-height:1.7;}
+  
+  .loading{padding:25px; text-align:center; font-size:14px; color:var(--indigo);}
+  .err-box{padding:14px; background:#fcebe6; border:1px solid var(--danger); color:var(--danger); font-size:13px;}
 </style>
 </head>
 <body>
@@ -233,7 +148,7 @@
     <span class="mark">வே</span>
     <div>
       <h1>வேற்றுமுகம்</h1>
-      <div class="sub">ஒரே இடத்தில் — இந்தியா, மாநிலம் வாரியாக, ஆழமான பின்னணியுடன்</div>
+      <div class="sub">செய்திகள் மட்டுமல்ல — அதன் முழு வரலாறு, அறிவியல் மற்றும் எதிர்காலம்</div>
     </div>
   </div>
   <div class="dateline" id="today-date"></div>
@@ -243,53 +158,41 @@
   <div class="state-wrap">
     <button class="state-btn" id="state-btn">இந்தியா ▾</button>
     <div class="state-menu" id="state-menu">
-      <div class="clear-row">
-        <span>மாநிலம் தேர்ந்தெடுக்கவும்</span>
-        <button id="clear-state-btn">அனைத்தும்</button>
-      </div>
       <div class="state-grid" id="state-grid"></div>
     </div>
   </div>
 </nav>
 
 <div class="filter-strip">
-  <select id="year-select"></select>
-  <select id="month-select"></select>
-  <button class="btn ghost" id="reset-btn">Filter Clear</button>
-  <span class="status-pill" id="status-pill">Connecting Live...</span>
+  <select id="year-select"><option value="">அனைத்து வருடம்</option></select>
+  <select id="month-select"><option value="">அனைத்து மாதம்</option></select>
+  <button class="tab-btn" id="reset-btn" style="clip-path:none; padding:5px 10px;">Filter Clear</button>
+  <span class="status-pill" id="status-pill">Live Active</span>
 </div>
 
 <main>
-  <div id="hero-section"></div>
-  <div class="section-label"><span id="section-title">மற்ற செய்திகள்</span><span id="result-count"></span></div>
+  <div class="section-label"><span id="section-title">அண்மைச் செய்திகள்</span><span id="result-count"></span></div>
   <div class="grid" id="news-grid"></div>
-  <div class="empty" id="empty-msg" style="display:none;">செய்திகள் பதிவிறக்கப்படுகின்றன... அல்லது இந்த தேர்வுக்கு செய்திகள் இல்லை.</div>
 </main>
-
-<footer>
-  Live Data மட்டும் இயங்குகிறது. செய்திகள் ஒவ்வொரு 10 நிமிடங்களுக்கும் தானாகவே புதுப்பிக்கப்படும். AI பகுப்பாய்விற்கு உங்களின் பாதுகாப்பான Backend (Render) பயன்படுத்தப்படுகிறது.
-</footer>
 
 <div class="overlay" id="overlay">
   <div class="modal">
     <div class="modal-head">
       <button class="close-btn" id="close-btn">&times;</button>
-      <div class="cat" id="modal-cat"></div>
+      <div id="modal-cat" style="font-size:12px; color:var(--gold); font-weight:bold;"></div>
       <h2 id="modal-title"></h2>
-      <div class="meta" id="modal-meta"></div>
+      <div id="modal-meta" style="font-size:12px; color:var(--ink-soft);"></div>
     </div>
     <div class="modal-body">
-      <div class="desc" id="modal-desc"></div>
+      <div id="modal-desc" style="font-size:14px; margin-bottom:16px; color:var(--ink-soft);"></div>
       <div id="analysis-container"></div>
     </div>
   </div>
 </div>
 
 <script>
-/* ================= IMPORTANT CONFIGURATION ================= */
-// உங்களின் உண்மையான Render URL
-const API_BACKEND_URL = "https://news-hnn4.onrender.com"; 
-/* ========================================================== */
+// Render Backend URL
+const API_BACKEND_URL = "[https://news-hnn4.onrender.com](https://news-hnn4.onrender.com)";
 
 const NAV_CATEGORIES = [
   {key:'top', label:'முகப்பு'},
@@ -302,18 +205,13 @@ const NAV_CATEGORIES = [
 ];
 
 const STATES = [
-  {en:'Andhra Pradesh', ta:'ஆந்திரப் பிரதேசம்'},
-  {en:'Arunachal Pradesh', ta:'அருணாசலப் பிரதேசம்'},
-  {en:'Assam', ta:'அசாம்'},
-  {en:'Bihar', ta:'பீகார்'},
-  {en:'Delhi', ta:'டெல்லி'},
-  {en:'Gujarat', ta:'குஜராத்'},
-  {en:'Karnataka', ta:'கர்நாடகா'},
-  {en:'Kerala', ta:'கேரளா'},
-  {en:'Maharashtra', ta:'மகாராஷ்டிரா'},
   {en:'Tamil Nadu', ta:'தமிழ்நாடு'},
-  {en:'Telangana', ta:'தெலங்கானா'},
-  {en:'Uttar Pradesh', ta:'உத்தரப் பிரதேசம்'},
+  {en:'Kerala', ta:'கேரளா'},
+  {en:'Karnataka', ta:'கர்நாடகா'},
+  {en:'Andhra Pradesh', ta:'ஆந்திரா'},
+  {en:'Delhi', ta:'டெல்லி'},
+  {en:'Maharashtra', ta:'மகாராஷ்டிரா'},
+  {en:'Gujarat', ta:'குஜராத்'},
   {en:'West Bengal', ta:'மேற்கு வங்காளம்'}
 ];
 
@@ -322,265 +220,184 @@ let currentCategory = 'top';
 let currentStateFilter = null;
 
 const tabsNav = document.getElementById('tabs-nav');
-const stateBtn = document.getElementById('state-btn');
-const stateMenu = document.getElementById('state-menu');
-const stateGrid = document.getElementById('state-grid');
+const grid = document.getElementById('news-grid');
 const yearSelect = document.getElementById('year-select');
 const monthSelect = document.getElementById('month-select');
-const grid = document.getElementById('news-grid');
-const heroSection = document.getElementById('hero-section');
-const emptyMsg = document.getElementById('empty-msg');
-const statusPill = document.getElementById('status-pill');
-const sectionTitle = document.getElementById('section-title');
-const resultCount = document.getElementById('result-count');
-const monthNames = ["ஜன","பிப்","மார்","ஏப்","மே","ஜூன்","ஜூலை","ஆக","செப்","அக்","நவ","டிச"];
 
+// Build Nav Tabs
 NAV_CATEGORIES.forEach(cat => {
   const btn = document.createElement('button');
   btn.className = 'tab-btn' + (cat.key === currentCategory ? ' active' : '');
   btn.textContent = cat.label;
-  btn.dataset.key = cat.key;
-  btn.addEventListener('click', () => setCategory(cat.key));
+  btn.onclick = () => {
+    currentCategory = cat.key;
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.toggle('active', b === btn));
+    fetchNews();
+  };
   tabsNav.insertBefore(btn, tabsNav.lastElementChild);
 });
 
-function setCategory(key){
-  currentCategory = key;
-  document.querySelectorAll('.tab-btn').forEach(b => b.classList.toggle('active', b.dataset.key === key));
-  fetchLiveNews();
-}
+// State Menu
+const stateBtn = document.getElementById('state-btn');
+const stateMenu = document.getElementById('state-menu');
+const stateGrid = document.getElementById('state-grid');
 
 STATES.forEach(st => {
   const item = document.createElement('div');
-  item.className = 'state-item' + (st.en === 'Tamil Nadu' ? ' tn' : '');
-  item.innerHTML = `<span>${st.ta}</span><span class="num">${st.en === 'Tamil Nadu' ? 'தமிழ்' : 'EN'}</span>`;
-  item.addEventListener('click', () => setState(st));
+  item.className = 'state-item';
+  item.textContent = st.ta;
+  item.onclick = () => {
+    currentStateFilter = st;
+    stateBtn.textContent = st.ta;
+    stateBtn.classList.add('on');
+    stateMenu.classList.remove('open');
+    fetchNews();
+  };
   stateGrid.appendChild(item);
 });
 
-stateBtn.addEventListener('click', (e) => {
-  e.stopPropagation();
-  stateMenu.classList.toggle('open');
-});
-document.addEventListener('click', (e) => {
-  if(!stateMenu.contains(e.target) && e.target !== stateBtn) stateMenu.classList.remove('open');
-});
-document.getElementById('clear-state-btn').addEventListener('click', () => setState(null));
+stateBtn.onclick = (e) => { e.stopPropagation(); stateMenu.classList.toggle('open'); };
+document.onclick = () => stateMenu.classList.remove('open');
 
-function setState(st){
-  currentStateFilter = st;
-  stateBtn.textContent = st ? `இந்தியா ▾ (${st.ta})` : 'இந்தியா ▾';
-  stateBtn.classList.toggle('on', !!st);
-  stateMenu.classList.remove('open');
-  fetchLiveNews();
-}
-
-function populateYearMonth(list){
-  const years = [...new Set(list.map(n => n.date.slice(0,4)))].sort((a,b)=>b-a);
-  yearSelect.innerHTML = '<option value="">அனைத்து வருடம்</option>' + years.map(y => `<option value="${y}">${y}</option>`).join('');
-  monthSelect.innerHTML = '<option value="">அனைத்து மாதம்</option>' + monthNames.map((m,i) => `<option value="${String(i+1).padStart(2,'0')}">${m}</option>`).join('');
-}
-yearSelect.addEventListener('change', applyFilters);
-monthSelect.addEventListener('change', applyFilters);
-document.getElementById('reset-btn').addEventListener('click', () => {
+// Filter Change
+yearSelect.onchange = applyDateFilter;
+monthSelect.onchange = applyDateFilter;
+document.getElementById('reset-btn').onclick = () => {
   yearSelect.value = ''; monthSelect.value = '';
-  applyFilters();
-});
+  renderList(currentNews);
+};
 
-function applyFilters(){
-  const y = yearSelect.value, m = monthSelect.value;
-  let filtered = currentNews.filter(n => {
-    const [ny, nm] = n.date.split('-');
-    if(y && ny !== y) return false;
-    if(m && nm !== m) return false;
+async function fetchNews(){
+  const lang = (currentStateFilter && currentStateFilter.en === 'Tamil Nadu') ? 'ta' : 'en';
+  const params = new URLSearchParams({ language: lang });
+  if(currentCategory !== 'top') params.set('category', currentCategory);
+  if(currentStateFilter) params.set('state', currentStateFilter.en);
+
+  try {
+    const res = await fetch(`${API_BACKEND_URL}/api/news?${params.toString()}`);
+    const data = await res.json();
+    currentNews = (Array.isArray(data) ? data : (data.results || [])).map(a => ({
+      title: a.title || 'தலைப்பு இல்லை',
+      desc: a.description || '',
+      date: (a.pubDate || '').slice(0, 10) || new Date().toISOString().slice(0, 10),
+      source: a.source_id || 'News',
+      category: currentCategory
+    }));
+    populateFilters(currentNews);
+    applyDateFilter();
+  } catch (err) {
+    grid.innerHTML = '<div style="grid-column:1/-1; color:red;">செய்திகளைப் பெறுவதில் பிழை ஏற்பட்டது.</div>';
+  }
+}
+
+function populateFilters(list){
+  const years = [...new Set(list.map(n => n.date.slice(0,4)))].filter(Boolean).sort().reverse();
+  yearSelect.innerHTML = '<option value="">அனைத்து வருடம்</option>' + years.map(y => `<option value="${y}">${y}</option>`).join('');
+  
+  const months = ["01","02","03","04","05","06","07","08","09","10","11","12"];
+  const mNames = ["ஜனவரி","பிப்ரவரி","மார்ச்","ஏப்ரல்","மே","ஜூன்","ஜூலை","ஆகஸ்ட்","செப்டம்பர்","அக்டோபர்","நவம்பர்","டிசம்பர்"];
+  monthSelect.innerHTML = '<option value="">அனைத்து மாதம்</option>' + months.map((m, i) => `<option value="${m}">${mNames[i]}</option>`).join('');
+}
+
+function applyDateFilter(){
+  const y = yearSelect.value;
+  const m = monthSelect.value;
+  const filtered = currentNews.filter(n => {
+    if(y && !n.date.startsWith(y)) return false;
+    if(m && n.date.slice(5,7) !== m) return false;
     return true;
   });
-  filtered.sort((a,b) => b.date.localeCompare(a.date));
-  renderNews(filtered);
-  updateTicker(filtered);
+  renderList(filtered);
 }
 
-function currentLabel(){
-  const catLabel = NAV_CATEGORIES.find(c => c.key === currentCategory)?.label || 'முகப்பு';
-  if(currentStateFilter) return `${currentStateFilter.ta} — ${catLabel}`;
-  return catLabel;
-}
-
-function renderNews(list){
-  sectionTitle.textContent = currentLabel();
-  resultCount.textContent = list.length ? `${list.length} செய்திகள்` : '';
-  if(list.length === 0){
-    heroSection.innerHTML = '';
-    grid.innerHTML = '';
-    emptyMsg.style.display = 'block';
+function renderList(list){
+  document.getElementById('result-count').textContent = `${list.length} செய்திகள்`;
+  grid.innerHTML = '';
+  
+  if(!list.length){
+    grid.innerHTML = '<div style="grid-column:1/-1; text-align:center; padding:30px;">செய்திகள் இல்லை.</div>';
     return;
   }
-  emptyMsg.style.display = 'none';
 
-  const [featured, ...rest] = list;
-  const sideItems = rest.slice(0, 3);
-  const gridItems = rest.slice(3);
-
-  heroSection.innerHTML = `
-    <div class="hero">
-      <div class="hero-main" data-id="${featured.id}">
-        <div class="cat">${catLabel(featured.category)}</div>
-        <h2>${escapeHtml(featured.title)}</h2>
-        <p>${escapeHtml(featured.desc || '')}</p>
-        <div class="meta">${featured.date} · ${escapeHtml(featured.source || '')}</div>
-      </div>
-      <div class="hero-side">
-        ${sideItems.map(n => `
-          <div class="item" data-id="${n.id}">
-            <div class="cat">${catLabel(n.category)}</div>
-            <h4>${escapeHtml(n.title)}</h4>
-            <div class="meta">${n.date}</div>
-          </div>`).join('')}
-      </div>
-    </div>
-  `;
-  heroSection.querySelectorAll('[data-id]').forEach(el => {
-    el.addEventListener('click', () => openDetail(findById(el.dataset.id, list)));
-  });
-
-  grid.innerHTML = '';
-  gridItems.forEach(n => {
+  list.forEach(item => {
     const card = document.createElement('div');
     card.className = 'card';
     card.innerHTML = `
-      <div class="cat">${catLabel(n.category)}</div>
-      <h3>${escapeHtml(n.title)}</h3>
-      <p>${escapeHtml(n.desc || '')}</p>
-      <div class="meta"><span>${n.date}</span><span>${escapeHtml(n.source || '')}</span></div>
+      <div class="cat">${item.category.toUpperCase()}</div>
+      <h3>${item.title}</h3>
+      <p>${item.desc.slice(0, 110)}...</p>
+      <div class="meta"><span>${item.date}</span><span>${item.source}</span></div>
     `;
-    card.addEventListener('click', () => openDetail(n));
+    card.onclick = () => openAnalysis(item);
     grid.appendChild(card);
   });
 }
 
-function findById(id, list){ return list.find(n => String(n.id) === String(id)); }
-function catLabel(key){ return NAV_CATEGORIES.find(c => c.key === key)?.label || key || 'General'; }
-function escapeHtml(str){ const d = document.createElement('div'); d.innerText = str || ''; return d.innerHTML; }
-
-function updateTicker(list){
-  const track = document.getElementById('ticker-track');
-  const items = list.slice(0,6);
-  if(items.length === 0){ track.innerHTML = '<span>தற்போது செய்திகள் இல்லை</span>'; return; }
-  track.innerHTML = items.map(n => `<span><b>${catLabel(n.category)}</b> ${escapeHtml(n.title)}</span>`).join('');
-}
-
-async function fetchLiveNews(){
-  if (API_BACKEND_URL === "YOUR_RENDER_URL_HERE") {
-    statusPill.textContent = 'Render URL-ஐ குறியீட்டில் சேர்க்கவும்';
-    return;
-  }
-  
-  statusPill.textContent = 'Updating...';
-  statusPill.classList.remove('live');
-  
-  const language = (currentStateFilter && currentStateFilter.en === 'Tamil Nadu') ? 'ta' : 'en';
-  const params = new URLSearchParams({ language });
-  if(currentCategory !== 'top') params.set('category', currentCategory);
-  if(currentStateFilter) params.set('state', currentStateFilter.en);
-
-  try{
-    const url = `${API_BACKEND_URL}/api/news?${params.toString()}`;
-    const res = await fetch(url);
-    if(!res.ok) throw new Error('API request failed: ' + res.status);
-    const data = await res.json();
-    const results = Array.isArray(data) ? data : (data.results || []);
-    
-    currentNews = results.map((a, i) => ({
-      id: 'live-' + i + '-' + Date.now(),
-      title: a.title || 'தலைப்பு இல்லை',
-      desc: a.description || '',
-      date: (a.pubDate || '').slice(0,10) || new Date().toISOString().slice(0,10),
-      category: currentCategory,
-      state: currentStateFilter ? currentStateFilter.en : null,
-      source: a.source_id || 'Live'
-    }));
-    
-    statusPill.textContent = 'Live Active';
-    statusPill.classList.add('live');
-    populateYearMonth(currentNews);
-    applyFilters();
-  }catch(err){
-    console.error(err);
-    statusPill.textContent = 'Error Fetching';
-    statusPill.classList.remove('live');
-  }
-}
-
-// 10 நிமிடங்களுக்கு ஒருமுறை தானாகப் புதுப்பிக்கப்படும்
-setInterval(() => {
-  if (!document.getElementById('overlay').classList.contains('open')) {
-    fetchLiveNews();
-  }
-}, 600000); 
-
-const overlay = document.getElementById('overlay');
-document.getElementById('close-btn').addEventListener('click', () => overlay.classList.remove('open'));
-overlay.addEventListener('click', (e) => { if(e.target === overlay) overlay.classList.remove('open'); });
-
-function openDetail(article){
-  if(!article) return;
-  document.getElementById('modal-cat').textContent = catLabel(article.category) + (article.state ? ' · ' + article.state : '');
-  document.getElementById('modal-title').textContent = article.title;
-  document.getElementById('modal-meta').textContent = `${article.date} · ${article.source || ''}`;
-  document.getElementById('modal-desc').textContent = article.desc || '';
-  overlay.classList.add('open');
-  loadAnalysis(article);
-}
-
-// Gemini பகுப்பாய்வு இப்போது Render Backend வழியாக பாதுகாப்பாகச் செல்லும்
-async function loadAnalysis(article){
+// 4-Deep Analysis Trigger
+async function openAnalysis(item){
+  const overlay = document.getElementById('overlay');
   const container = document.getElementById('analysis-container');
+  
+  document.getElementById('modal-cat').textContent = item.category;
+  document.getElementById('modal-title').textContent = item.title;
+  document.getElementById('modal-meta').textContent = `${item.date} · ${item.source}`;
+  document.getElementById('modal-desc').textContent = item.desc;
+  
+  overlay.classList.add('open');
+  container.innerHTML = '<div class="loading">🔍 Gemini Pro முழுப் பின்னணி, வரலாறு, அறிவியல் காரணங்களை ஆராய்கிறது...</div>';
 
-  if(API_BACKEND_URL === "YOUR_RENDER_URL_HERE") {
-    container.innerHTML = `<div class="err-box">குறியீட்டில் உங்களின் Render URL-ஐ கொடுக்கவும்.</div>`;
-    return;
-  }
-
-  container.innerHTML = `<div class="loading-box"><div class="spinner"></div> முழு பின்னணி தயார் செய்யப்படுகிறது...</div>`;
-
-  try{
-    const url = `${API_BACKEND_URL}/api/analyze`;
-    
-    const response = await fetch(url, {
+  try {
+    const res = await fetch(`${API_BACKEND_URL}/api/analyze`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
-        title: article.title,
-        desc: article.desc || '',
-        date: article.date
+        title: item.title,
+        desc: item.desc,
+        date: item.date
       })
     });
-    
-    if(!response.ok) throw new Error('Analysis request failed: ' + response.status);
-    const data = await response.json();
-    
-    // Python backend JSON-ஐ String ஆக அனுப்பும், அதை நாம் இங்கே Parse செய்கிறோம்
+
+    const data = await res.json();
+    if(!res.ok) throw new Error(data.error || 'Server error');
+
+    // Parse Response
     const cleaned = data.analysis.replace(/```json|```/g, '').trim();
-    const parsed = JSON.parse(cleaned);
+    const p = JSON.parse(cleaned);
 
     container.innerHTML = `
-      <div class="section"><h4>என்ன நடந்தது</h4><p>${escapeHtml(parsed.what_happened)}</p></div>
-      <div class="section"><h4>காரணம் / பின்னணி</h4><p>${escapeHtml(parsed.reason_science)}</p></div>
-      <div class="section"><h4>நிபுணர்கள் கருத்து</h4><p>${escapeHtml(parsed.expert_view)}</p></div>
-      <div class="section"><h4>எதிர்காலத்தில் என்ன நடக்கலாம்</h4><p>${escapeHtml(parsed.future_outlook)}</p></div>
+      <div class="deep-box">
+        <h4>📌 1. என்ன நடந்தது? (விரிவான தகவல்)</h4>
+        <p>${p.what_happened}</p>
+      </div>
+      <div class="deep-box history">
+        <h4>📜 2. வரலாற்று பின்னணி (இதற்கு முன் எங்கு நடந்தது?)</h4>
+        <p>${p.past_history}</p>
+      </div>
+      <div class="deep-box science">
+        <h4>🔬 3. அறிவியல் காரணங்கள் & விஞ்ஞானிகள் கருத்து</h4>
+        <p>${p.scientific_reasons}</p>
+      </div>
+      <div class="deep-box future">
+        <h4>🔮 4. எதிர்கால தாக்கம் & முன்னெச்சரிக்கை</h4>
+        <p>${p.future_outlook}</p>
+      </div>
     `;
-  }catch(err){
-    console.error(err);
-    container.innerHTML = `
-      <div class="err-box">பகுப்பாய்வு ஏற்ற முடியவில்லை: ${escapeHtml(err.message)}
-        <br><button class="retry-btn" id="retry-analysis">மீண்டும் முயற்சி</button>
-      </div>`;
-    document.getElementById('retry-analysis').addEventListener('click', () => loadAnalysis(article));
+  } catch (err) {
+    container.innerHTML = `<div class="err-box">பகுப்பாய்வு பிழை: ${err.message}</div>`;
   }
 }
 
+document.getElementById('close-btn').onclick = () => document.getElementById('overlay').classList.remove('open');
+
+// 10 நிமிடங்களுக்கு ஒருமுறை Auto-refresh
+setInterval(() => {
+  if(!document.getElementById('overlay').classList.contains('open')){
+    fetchNews();
+  }
+}, 600000);
+
 document.getElementById('today-date').textContent = new Date().toLocaleDateString('ta-IN', {year:'numeric', month:'long', day:'numeric'});
-fetchLiveNews();
+fetchNews();
 </script>
 </body>
 </html>
