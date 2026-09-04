@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+  <!DOCTYPE html>
 <html lang="ta">
 <head>
 <meta charset="UTF-8">
@@ -174,7 +174,6 @@
   .config-panel label{display:block; font-size:12px; color:var(--ink-soft); margin:10px 0 4px;}
   .config-panel input{width:100%;}
   .config-panel p{font-size:11.5px; color:var(--ink-soft); margin:10px 0 0;}
-  .config-panel a{color:var(--indigo);}
 
   /* ---------- Main / hero ---------- */
   main{max-width:1180px; margin:0 auto; padding:26px 24px 10px;}
@@ -257,12 +256,11 @@
 </header>
 
 <nav class="tabs" id="tabs-nav">
-  <!-- category tabs injected by JS -->
   <div class="state-wrap">
     <button class="state-btn" id="state-btn">இந்தியா ▾</button>
     <div class="state-menu" id="state-menu">
       <div class="clear-row">
-        <span>மாநிலம் தேர்ந்தெடுக்கவும் — தமிழ்நாடு தமிழில், மற்றவை English-ல்</span>
+        <span>மாநிலம் தேர்ந்தெடுக்கவும்</span>
         <button id="clear-state-btn">அனைத்தும்</button>
       </div>
       <div class="state-grid" id="state-grid"></div>
@@ -274,16 +272,19 @@
   <select id="year-select"></select>
   <select id="month-select"></select>
   <button class="btn ghost" id="reset-btn">Filter Clear</button>
-  <span class="status-pill" id="status-pill">Sample data (demo)</span>
+  <span class="status-pill" id="status-pill">Connecting Live...</span>
   <details class="config-details">
-    <summary>⚙ Live news அமைப்பு</summary>
+    <summary>⚙ அமைப்புகள்</summary>
     <div class="config-panel">
-      <label>உங்கள் Flask backend URL (உங்க API key அதுக்குள்ளேயே இருக்கும்)</label>
-      <input type="text" id="backend-url-input" placeholder="https://your-app.onrender.com">
-      <label>அல்லது நேரடியா NewsData.io key (backend இல்லாதவங்களுக்கு)</label>
+      <label>Flask backend URL (News API)</label>
+      <input type="text" id="backend-url-input" placeholder="http://127.0.0.1:5000">
+      <label>அல்லது நேரடியா NewsData.io key</label>
       <input type="password" id="api-key-input" placeholder="உங்கள் NewsData.io API key">
-      <button class="btn" id="fetch-live-btn" style="width:100%; margin-top:12px;">Live news ஏற்று</button>
-      <p>Backend URL கொடுத்தா அதுவே use ஆகும் (key browser-ல் தெரியாது, safe). இல்லேனா நேரடி key use ஆகும்.</p>
+      
+      <label style="margin-top:15px; color:var(--indigo); font-weight:bold;">Gemini Pro API Key (முழு பின்னணி அறிய)</label>
+      <input type="password" id="gemini-key-input" placeholder="AI Studio-லிருந்து பெறப்பட்ட Key">
+      
+      <button class="btn" id="fetch-live-btn" style="width:100%; margin-top:12px;">சேமி & புதுப்பி</button>
     </div>
   </details>
 </div>
@@ -292,11 +293,11 @@
   <div id="hero-section"></div>
   <div class="section-label"><span id="section-title">மற்ற செய்திகள்</span><span id="result-count"></span></div>
   <div class="grid" id="news-grid"></div>
-  <div class="empty" id="empty-msg" style="display:none;">இந்த தேர்வுக்கு செய்திகள் இல்லை. வேறு மாநிலம்/பிரிவு/தேதி முயற்சிக்கவும்.</div>
+  <div class="empty" id="empty-msg" style="display:none;">செய்திகள் பதிவிறக்கப்படுகின்றன... அல்லது இந்த தேர்வுக்கு செய்திகள் இல்லை.</div>
 </main>
 
 <footer>
-  Demo mode-ல் காட்டப்படும் தரவு விளக்கத்திற்காக மட்டும். Live news-க்கு Live news அமைப்பு பயன்படுத்தவும். ஒவ்வொரு செய்தியின் "முழு பின்னணி" AI மூலம் real-time-ஆக உருவாக்கப்படுகிறது — முக்கிய தகவல்களை மூல செய்தியுடன் சரிபார்க்கவும்.
+  Live Data மட்டும் இயங்குகிறது. செய்திகள் ஒவ்வொரு 5 வினாடிகளுக்கும் தானாகவே புதுப்பிக்கப்படும். AI பகுப்பாய்விற்கு Gemini 1.5 Pro பயன்படுத்தப்படுகிறது.
 </footer>
 
 <div class="overlay" id="overlay">
@@ -331,52 +332,19 @@ const STATES = [
   {en:'Arunachal Pradesh', ta:'அருணாசலப் பிரதேசம்'},
   {en:'Assam', ta:'அசாம்'},
   {en:'Bihar', ta:'பீகார்'},
-  {en:'Chhattisgarh', ta:'சத்தீஸ்கர்'},
   {en:'Delhi', ta:'டெல்லி'},
-  {en:'Goa', ta:'கோவா'},
   {en:'Gujarat', ta:'குஜராத்'},
-  {en:'Haryana', ta:'ஹரியானா'},
-  {en:'Himachal Pradesh', ta:'இமாச்சலப் பிரதேசம்'},
-  {en:'Jammu and Kashmir', ta:'ஜம்மு காஷ்மீர்'},
-  {en:'Jharkhand', ta:'ஜார்க்கண்ட்'},
   {en:'Karnataka', ta:'கர்நாடகா'},
   {en:'Kerala', ta:'கேரளா'},
-  {en:'Madhya Pradesh', ta:'மத்தியப் பிரதேசம்'},
   {en:'Maharashtra', ta:'மகாராஷ்டிரா'},
-  {en:'Manipur', ta:'மணிப்பூர்'},
-  {en:'Meghalaya', ta:'மேகாலயா'},
-  {en:'Mizoram', ta:'மிசோரம்'},
-  {en:'Nagaland', ta:'நாகாலாந்து'},
-  {en:'Odisha', ta:'ஒடிசா'},
-  {en:'Punjab', ta:'பஞ்சாப்'},
-  {en:'Rajasthan', ta:'ராஜஸ்தான்'},
-  {en:'Sikkim', ta:'சிக்கிம்'},
   {en:'Tamil Nadu', ta:'தமிழ்நாடு'},
   {en:'Telangana', ta:'தெலங்கானா'},
-  {en:'Tripura', ta:'திரிபுரா'},
   {en:'Uttar Pradesh', ta:'உத்தரப் பிரதேசம்'},
-  {en:'Uttarakhand', ta:'உத்தரகண்ட்'},
   {en:'West Bengal', ta:'மேற்கு வங்காளம்'}
 ];
 
-const SAMPLE_NEWS = [
-  {id:1, title:"நேபாளத்தில் பனிக்கட்டி ஏரி வெடித்து வெள்ளப்பெருக்கு", desc:"இமயமலைப் பகுதியில் உள்ள ஒரு பனிக்கட்டி ஏரி திடீரென உடைந்து, கீழ்ப்பகுதி நகரங்களில் பெரும் வெள்ளம் ஏற்பட்டது.", date:"2026-08-18", category:"world", state:null, source:"Sample Wire"},
-  {id:2, title:"சென்னையில் புதிய மெட்ரோ பாதை திறப்பு", desc:"சென்னை மெட்ரோவின் இரண்டாம் கட்டப் பணிகளின் ஒரு பகுதி பொதுமக்கள் பயன்பாட்டிற்கு திறக்கப்பட்டது.", date:"2026-07-02", category:"top", state:"Tamil Nadu", source:"Sample Wire"},
-  {id:3, title:"இந்திய விண்வெளி ஆய்வு நிறுவனம் புதிய செயற்கைக்கோள் ஏவியது", desc:"தொலைத்தொடர்பு தேவைகளுக்கான புதிய செயற்கைக்கோள் வெற்றிகரமாக சுற்றுப்பாதையில் நிலைநிறுத்தப்பட்டது.", date:"2026-05-14", category:"technology", state:null, source:"Sample Wire"},
-  {id:4, title:"Assam braces for heavy rain as pressure system builds", desc:"The weather office has warned of heavy rainfall over the next three days due to a fresh low-pressure system.", date:"2026-06-21", category:"environment", state:"Assam", source:"Sample Wire"},
-  {id:5, title:"Gujarat investor summit signs new industrial deals", desc:"Several thousand-crore investment agreements were signed at the state's flagship investment summit.", date:"2026-03-09", category:"business", state:"Gujarat", source:"Sample Wire"},
-  {id:6, title:"கடல் மட்ட உயர்வு குறித்த புதிய ஆய்வு அறிக்கை", desc:"இந்தியாவின் மேற்கு கடற்கரையோர பகுதிகள் அடுத்த பத்தாண்டுகளில் எதிர்கொள்ளக்கூடிய அபாயங்கள் குறித்து விஞ்ஞானிகள் எச்சரிக்கை.", date:"2025-11-30", category:"environment", state:null, source:"Sample Wire"},
-  {id:7, title:"Delhi's air quality worsens as winter sets in", desc:"Pollution levels in the capital have climbed sharply as the winter season begins.", date:"2025-12-05", category:"environment", state:"Delhi", source:"Sample Wire"},
-  {id:8, title:"கிராமப்புற இணைய இணைப்பு திட்டம் விரிவாக்கம்", desc:"ஒளியிழை இணைப்பு திட்டம் மேலும் பல்லாயிரம் கிராமங்களுக்கு விரிவுபடுத்தப்படுகிறது.", date:"2025-09-17", category:"technology", state:null, source:"Sample Wire"},
-  {id:9, title:"தேசிய பாதுகாப்பு கவுன்சில் புதிய கொள்கை அறிவிப்பு", desc:"எல்லைப் பகுதி உள்கட்டமைப்பு குறித்த புதிய கொள்கை அறிவிக்கப்பட்டது.", date:"2026-08-25", category:"politics", state:null, source:"Sample Wire"},
-  {id:10, title:"விவசாயிகளுக்கான புதிய மானிய திட்டம் தமிழ்நாட்டில் அறிமுகம்", desc:"சிறு மற்றும் குறு விவசாயிகளுக்கு உதவும் வகையில் புதிய மானியத் திட்டம் தமிழக அரசால் அறிமுகப்படுத்தப்பட்டது.", date:"2026-04-11", category:"politics", state:"Tamil Nadu", source:"Sample Wire"},
-  {id:11, title:"கிரிக்கெட் உலகக் கோப்பைக்கு தேர்வுக் குழு அறிவிப்பு", desc:"வரவிருக்கும் தொடருக்கான 15 பேர் கொண்ட அணி அறிவிக்கப்பட்டது.", date:"2026-08-30", category:"sports", state:null, source:"Sample Wire"},
-  {id:12, title:"Bengaluru startup raises major funding round", desc:"A Bengaluru-based technology startup has closed a large funding round led by international investors.", date:"2026-07-19", category:"technology", state:"Karnataka", source:"Sample Wire"}
-];
-
 /* ================= State ================= */
-let currentNews = [...SAMPLE_NEWS];
-let usingLive = false;
+let currentNews = [];
 let currentCategory = 'top';
 let currentStateFilter = null;
 
@@ -408,7 +376,7 @@ NAV_CATEGORIES.forEach(cat => {
 function setCategory(key){
   currentCategory = key;
   document.querySelectorAll('.tab-btn').forEach(b => b.classList.toggle('active', b.dataset.key === key));
-  if(usingLive){ fetchLiveNews(); } else { applyFilters(); }
+  fetchLiveNews();
 }
 
 /* ================= State menu ================= */
@@ -434,7 +402,7 @@ function setState(st){
   stateBtn.textContent = st ? `இந்தியா ▾ (${st.ta})` : 'இந்தியா ▾';
   stateBtn.classList.toggle('on', !!st);
   stateMenu.classList.remove('open');
-  if(usingLive){ fetchLiveNews(); } else { applyFilters(); }
+  fetchLiveNews();
 }
 
 /* ================= Year / Month filters ================= */
@@ -451,18 +419,9 @@ document.getElementById('reset-btn').addEventListener('click', () => {
 });
 
 /* ================= Filtering & render ================= */
-function getBaseList(){
-  if(usingLive) return currentNews; // already scoped by API call
-  return SAMPLE_NEWS.filter(n => {
-    if(currentCategory !== 'top' && n.category !== currentCategory) return false;
-    if(currentStateFilter && n.state !== currentStateFilter.en) return false;
-    return true;
-  });
-}
-
 function applyFilters(){
   const y = yearSelect.value, m = monthSelect.value;
-  let filtered = getBaseList().filter(n => {
+  let filtered = currentNews.filter(n => {
     const [ny, nm] = n.date.split('-');
     if(y && ny !== y) return false;
     if(m && nm !== m) return false;
@@ -546,15 +505,14 @@ function updateTicker(list){
 document.getElementById('fetch-live-btn').addEventListener('click', fetchLiveNews);
 
 async function fetchLiveNews(){
-  const backendUrl = document.getElementById('backend-url-input').value.trim().replace(/\/$/, '');
+  let backendUrl = document.getElementById('backend-url-input').value.trim().replace(/\/$/, '');
   const apiKey = document.getElementById('api-key-input').value.trim();
-  if(!backendUrl && !apiKey){
-    alert('Backend URL அல்லது NewsData.io API key — இதில் ஒன்றையாவது "Live news அமைப்பு"-ல் கொடுக்கவும்.');
-    return;
-  }
-  statusPill.textContent = 'Live news ஏற்றுகிறது...';
-  statusPill.classList.remove('live');
+  
+  // Default to localhost if nothing provided, based on standard Flask setup
+  if(!backendUrl && !apiKey) backendUrl = "http://127.0.0.1:5000";
 
+  statusPill.textContent = 'Updating...';
+  
   const language = (currentStateFilter && currentStateFilter.en === 'Tamil Nadu') ? 'ta' : 'en';
   const params = new URLSearchParams({ language });
   if(currentCategory !== 'top') params.set('category', currentCategory);
@@ -574,9 +532,9 @@ async function fetchLiveNews(){
     if(!res.ok) throw new Error('API request failed: ' + res.status);
     const data = await res.json();
     const results = Array.isArray(data) ? data : (data.results || []);
-    if(results.length === 0) throw new Error('No articles returned');
+    
     currentNews = results.map((a, i) => ({
-      id: 'live-' + i,
+      id: 'live-' + i + '-' + Date.now(), // Ensure unique ID per fetch
       title: a.title || 'தலைப்பு இல்லை',
       desc: a.description || '',
       date: (a.pubDate || '').slice(0,10) || new Date().toISOString().slice(0,10),
@@ -584,20 +542,27 @@ async function fetchLiveNews(){
       state: currentStateFilter ? currentStateFilter.en : null,
       source: a.source_id || 'Live'
     }));
-    usingLive = true;
-    statusPill.textContent = 'Live data connected';
+    
+    statusPill.textContent = 'Live Active';
     statusPill.classList.add('live');
     populateYearMonth(currentNews);
     applyFilters();
   }catch(err){
     console.error(err);
-    statusPill.textContent = 'Sample data (demo)';
+    statusPill.textContent = 'Error Fetching';
     statusPill.classList.remove('live');
-    alert('Live news கிடைக்கவில்லை: ' + err.message + '\n\nகாரணங்கள்: backend deploy ஆகவில்லை, தவறான key, அல்லது CORS தடை. Sample data காட்டப்படுகிறது.');
   }
 }
 
-/* ================= Modal + AI analysis ================= */
+/* ================= Auto Refresh Every 5 Seconds ================= */
+setInterval(() => {
+  // Prevent refreshing the background while the user is reading the AI Modal
+  if (!document.getElementById('overlay').classList.contains('open')) {
+    fetchLiveNews();
+  }
+}, 5000);
+
+/* ================= Modal + Gemini AI analysis ================= */
 const overlay = document.getElementById('overlay');
 document.getElementById('close-btn').addEventListener('click', () => overlay.classList.remove('open'));
 overlay.addEventListener('click', (e) => { if(e.target === overlay) overlay.classList.remove('open'); });
@@ -614,42 +579,50 @@ function openDetail(article){
 
 async function loadAnalysis(article){
   const container = document.getElementById('analysis-container');
-  container.innerHTML = `<div class="loading-box"><div class="spinner"></div> முழு பின்னணி, காரணம், நிபுணர் கருத்து தயார் செய்யப்படுகிறது...</div>`;
+  const geminiKey = document.getElementById('gemini-key-input').value.trim();
+
+  if(!geminiKey) {
+    container.innerHTML = `<div class="err-box">அமைப்புகளில் (⚙) உங்கள் <b>Gemini Pro API Key</b>-ஐ உள்ளிடவும்.</div>`;
+    return;
+  }
+
+  container.innerHTML = `<div class="loading-box"><div class="spinner"></div> Gemini Pro மூலம் முழு பின்னணி தயார் செய்யப்படுகிறது...</div>`;
 
   const systemPrompt = `You are a careful Indian news analyst writing for a Tamil-reading audience.
-Given a news headline and short description, respond with ONLY a JSON object (no markdown fences, no preamble) with exactly these keys:
+Given a news headline and short description, respond with ONLY a valid JSON object. Do not include markdown formatting or backticks around the JSON. The JSON must exactly match this structure:
 {
-  "what_happened": "2-4 sentences in Tamil describing what happened, as specifically as you reasonably can from the given info",
-  "reason_science": "2-4 sentences in Tamil explaining the likely causes / scientific or technical background, being clear when something is a general explanation rather than confirmed for this specific event",
-  "expert_view": "2-3 sentences in Tamil summarizing the kind of view experts/scientists typically hold on this type of event, noting if you don't have a specific quote for this exact event",
-  "future_outlook": "2-3 sentences in Tamil on plausible future implications or what could happen next, framed as informed possibility, not certainty"
-}
-Mixing common English technical terms into the Tamil is fine. Be honest about uncertainty; do not invent specific facts, names, or numbers you are not confident about.`;
+  "what_happened": "2-4 sentences in Tamil describing what happened",
+  "reason_science": "2-4 sentences in Tamil explaining the causes or background",
+  "expert_view": "2-3 sentences in Tamil summarizing expert views",
+  "future_outlook": "2-3 sentences in Tamil on future implications"
+}`;
 
-  const userPrompt = `Headline: ${article.title}\nDescription: ${article.desc || '(no extra description provided)'}\nDate: ${article.date}${article.state ? '\nState: ' + article.state : ''}`;
+  const userPrompt = `Headline: ${article.title}\nDescription: ${article.desc || '(no description)'}\nDate: ${article.date}`;
 
   try{
-    const response = await fetch("https://api.anthropic.com/v1/messages", {
+    const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-pro:generateContent?key=${geminiKey}`;
+    
+    const response = await fetch(url, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
-        model: "claude-sonnet-4-6",
-        max_tokens: 1000,
-        system: systemPrompt,
-        messages: [{ role: "user", content: userPrompt }]
+        contents: [{
+          parts: [{ text: systemPrompt + "\n\n" + userPrompt }]
+        }]
       })
     });
-    if(!response.ok) throw new Error('Analysis request failed: ' + response.status);
+    
+    if(!response.ok) throw new Error('Gemini API request failed: ' + response.status);
     const data = await response.json();
-    const textBlock = (data.content || []).find(b => b.type === 'text');
-    if(!textBlock) throw new Error('No text response received');
-    const cleaned = textBlock.text.replace(/```json|```/g, '').trim();
+    
+    const textRes = data.candidates[0].content.parts[0].text;
+    const cleaned = textRes.replace(/```json|```/g, '').trim();
     const parsed = JSON.parse(cleaned);
 
     container.innerHTML = `
       <div class="section"><h4>என்ன நடந்தது</h4><p>${escapeHtml(parsed.what_happened)}</p></div>
-      <div class="section"><h4>காரணம் / அறிவியல் பின்னணி</h4><p>${escapeHtml(parsed.reason_science)}</p></div>
-      <div class="section"><h4>நிபுணர்கள் / விஞ்ஞானிகள் கருத்து</h4><p>${escapeHtml(parsed.expert_view)}</p></div>
+      <div class="section"><h4>காரணம் / பின்னணி</h4><p>${escapeHtml(parsed.reason_science)}</p></div>
+      <div class="section"><h4>நிபுணர்கள் கருத்து</h4><p>${escapeHtml(parsed.expert_view)}</p></div>
       <div class="section"><h4>எதிர்காலத்தில் என்ன நடக்கலாம்</h4><p>${escapeHtml(parsed.future_outlook)}</p></div>
     `;
   }catch(err){
@@ -664,8 +637,8 @@ Mixing common English technical terms into the Tamil is fine. Be honest about un
 
 /* ================= Init ================= */
 document.getElementById('today-date').textContent = new Date().toLocaleDateString('ta-IN', {year:'numeric', month:'long', day:'numeric'});
-populateYearMonth(currentNews);
-applyFilters();
+// Start directly with Live Data
+fetchLiveNews();
 </script>
 </body>
 </html>
