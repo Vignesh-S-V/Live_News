@@ -267,7 +267,7 @@
 </main>
 
 <footer>
-  Live Data மட்டும் இயங்குகிறது. செய்திகள் ஒவ்வொரு 5 வினாடிகளுக்கும் தானாகவே புதுப்பிக்கப்படும். AI பகுப்பாய்விற்கு Gemini 1.5 Pro பயன்படுத்தப்படுகிறது.
+  Live Data மட்டும் இயங்குகிறது. செய்திகள் ஒவ்வொரு 10 நிமிடங்களுக்கும் தானாகவே புதுப்பிக்கப்படும். AI பகுப்பாய்விற்கு உங்களின் பாதுகாப்பான Backend (Render) பயன்படுத்தப்படுகிறது.
 </footer>
 
 <div class="overlay" id="overlay">
@@ -287,12 +287,8 @@
 
 <script>
 /* ================= IMPORTANT CONFIGURATION ================= */
-// உங்கள் Render/PythonAnywhere Flask URL-ஐ இங்கே கொடுக்கவும்.
-// Local-ல் Run செய்தால் "http://127.0.0.1:5000" என்பதை அப்படியே வைத்திருக்கவும்.
-const API_BACKEND_URL = "http://127.0.0.1:5000"; 
-
-// உங்கள் Gemini Pro API Key-ஐ இங்கே ஒட்டவும்
-const GEMINI_API_KEY = "YOUR_GEMINI_API_KEY_HERE"; 
+// உங்களின் உண்மையான Render URL
+const API_BACKEND_URL = "https://news-hnn4.onrender.com"; 
 /* ========================================================== */
 
 const NAV_CATEGORIES = [
@@ -474,6 +470,11 @@ function updateTicker(list){
 }
 
 async function fetchLiveNews(){
+  if (API_BACKEND_URL === "YOUR_RENDER_URL_HERE") {
+    statusPill.textContent = 'Render URL-ஐ குறியீட்டில் சேர்க்கவும்';
+    return;
+  }
+  
   statusPill.textContent = 'Updating...';
   statusPill.classList.remove('live');
   
@@ -510,11 +511,12 @@ async function fetchLiveNews(){
   }
 }
 
+// 10 நிமிடங்களுக்கு ஒருமுறை தானாகப் புதுப்பிக்கப்படும்
 setInterval(() => {
   if (!document.getElementById('overlay').classList.contains('open')) {
     fetchLiveNews();
   }
-}, 5000);
+}, 600000); 
 
 const overlay = document.getElementById('overlay');
 document.getElementById('close-btn').addEventListener('click', () => overlay.classList.remove('open'));
@@ -530,45 +532,35 @@ function openDetail(article){
   loadAnalysis(article);
 }
 
+// Gemini பகுப்பாய்வு இப்போது Render Backend வழியாக பாதுகாப்பாகச் செல்லும்
 async function loadAnalysis(article){
   const container = document.getElementById('analysis-container');
 
-  if(GEMINI_API_KEY === "YOUR_GEMINI_API_KEY_HERE" || !GEMINI_API_KEY) {
-    container.innerHTML = `<div class="err-box">குறியீட்டில் (Code) உங்களின் Gemini Pro API Key-ஐ உள்ளிடவும்.</div>`;
+  if(API_BACKEND_URL === "YOUR_RENDER_URL_HERE") {
+    container.innerHTML = `<div class="err-box">குறியீட்டில் உங்களின் Render URL-ஐ கொடுக்கவும்.</div>`;
     return;
   }
 
-  container.innerHTML = `<div class="loading-box"><div class="spinner"></div> Gemini Pro மூலம் முழு பின்னணி தயார் செய்யப்படுகிறது...</div>`;
-
-  const systemPrompt = `You are a careful Indian news analyst writing for a Tamil-reading audience.
-Given a news headline and short description, respond with ONLY a valid JSON object. Do not include markdown formatting or backticks around the JSON. The JSON must exactly match this structure:
-{
-  "what_happened": "2-4 sentences in Tamil describing what happened",
-  "reason_science": "2-4 sentences in Tamil explaining the causes or background",
-  "expert_view": "2-3 sentences in Tamil summarizing expert views",
-  "future_outlook": "2-3 sentences in Tamil on future implications"
-}`;
-
-  const userPrompt = `Headline: ${article.title}\nDescription: ${article.desc || '(no description)'}\nDate: ${article.date}`;
+  container.innerHTML = `<div class="loading-box"><div class="spinner"></div> முழு பின்னணி தயார் செய்யப்படுகிறது...</div>`;
 
   try{
-    const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-pro:generateContent?key=${GEMINI_API_KEY}`;
+    const url = `${API_BACKEND_URL}/api/analyze`;
     
     const response = await fetch(url, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
-        contents: [{
-          parts: [{ text: systemPrompt + "\n\n" + userPrompt }]
-        }]
+        title: article.title,
+        desc: article.desc || '',
+        date: article.date
       })
     });
     
-    if(!response.ok) throw new Error('Gemini API request failed: ' + response.status);
+    if(!response.ok) throw new Error('Analysis request failed: ' + response.status);
     const data = await response.json();
     
-    const textRes = data.candidates[0].content.parts[0].text;
-    const cleaned = textRes.replace(/```json|```/g, '').trim();
+    // Python backend JSON-ஐ String ஆக அனுப்பும், அதை நாம் இங்கே Parse செய்கிறோம்
+    const cleaned = data.analysis.replace(/```json|```/g, '').trim();
     const parsed = JSON.parse(cleaned);
 
     container.innerHTML = `
