@@ -6,7 +6,7 @@ app = Flask(__name__)
 CORS(app)  # allows your GitHub Pages site to call this backend from the browser
 
 # You said you already enabled this — keep it here, never in the frontend HTML.
-NEWS_API_KEY = "pub_37e638a7c3134ec8b53398d9e929f1a8"
+NEWS_API_KEY = "pub_c3d6b7839bf54cfd95bca32cc11557ba"
 
 NEWSDATA_URL = "https://newsdata.io/api/1/news"
 
