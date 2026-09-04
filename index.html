@@ -253,6 +253,8 @@ NAV_CATEGORIES.forEach(cat => {
     currentCategory = cat.key;
     currentSearchQuery = '';
     searchInput.value = '';
+    yearSelect.value = '';
+    monthSelect.value = '';
     document.getElementById('section-title').textContent = cat.key === 'india_impact'
       ? 'உலக நிகழ்வுகள் — இந்தியாவுக்கான தாக்கம்'
       : 'அண்மைச் செய்திகள்';
@@ -380,18 +382,26 @@ async function fetchNews(){
       source: a.source_id || 'News',
       category: currentCategory === 'india_impact' ? 'இந்தியா தாக்கம்' : currentCategory
     }));
-    renderList(currentNews);
+    const notice = (!Array.isArray(data) && data.notice) ? data.notice : null;
+    renderList(currentNews, notice);
   } catch (err) {
     grid.innerHTML = `<div style="grid-column:1/-1; padding:20px;" class="err-box">செய்திகளைப் பெறுவதில் பிழை: ${err.message}<br><span style="font-size:11px;">(API plan-ல் date-range archive இல்லனா இந்த error வரலாம்)</span></div>`;
   }
 }
 
-function renderList(list){
+function renderList(list, notice){
   document.getElementById('result-count').textContent = `${list.length} செய்திகள்`;
   grid.innerHTML = '';
-  
+
+  if(notice){
+    const noticeEl = document.createElement('div');
+    noticeEl.style.cssText = 'grid-column:1/-1; background:#fff7e0; border:1px solid #d4a017; color:#7a5b00; padding:10px 14px; font-size:12.5px;';
+    noticeEl.textContent = notice;
+    grid.appendChild(noticeEl);
+  }
+
   if(!list.length){
-    grid.innerHTML = '<div style="grid-column:1/-1; text-align:center; padding:30px;">செய்திகள் இல்லை.</div>';
+    grid.innerHTML += '<div style="grid-column:1/-1; text-align:center; padding:30px;">செய்திகள் இல்லை.</div>';
     return;
   }
 
