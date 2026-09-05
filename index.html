@@ -146,6 +146,19 @@
   
   .loading{padding:25px; text-align:center; font-size:14px; color:var(--indigo);}
   .err-box{padding:14px; background:#fcebe6; border:1px solid var(--danger); color:var(--danger); font-size:13px;}
+
+  .pagination{
+    display:flex; align-items:center; justify-content:center; gap:6px;
+    flex-wrap:wrap; margin-top:26px; padding-top:16px; border-top:1px solid var(--rule);
+  }
+  .page-btn{
+    min-width:34px; padding:7px 10px; font-size:13px; font-weight:600;
+    background:var(--card); color:var(--ink); border:1px solid var(--rule);
+    cursor:pointer;
+  }
+  .page-btn:hover:not(:disabled){border-color:var(--gold); color:var(--gold);}
+  .page-btn.active{background:var(--indigo); color:#fff; border-color:var(--indigo);}
+  .page-btn:disabled{opacity:.4; cursor:not-allowed;}
 </style>
 </head>
 <body>
@@ -173,8 +186,8 @@
 </nav>
 
 <div class="filter-strip">
-  <select id="year-select"><option value="">All Year</option></select>
-  <select id="month-select"><option value="">All Month</option></select>
+  <select id="year-select"><option value="">அனைத்து வருடம்</option></select>
+  <select id="month-select"><option value="">அனைத்து மாதம்</option></select>
   <button class="tab-btn" id="reset-btn" style="clip-path:none; padding:5px 10px;">Filter Clear</button>
 
   <input type="text" id="search-input" placeholder="தேடு... (எ.கா: பங்குச் சந்தை)">
@@ -186,6 +199,7 @@
 <main>
   <div class="section-label"><span id="section-title">அண்மைச் செய்திகள்</span><span id="result-count"></span></div>
   <div class="grid" id="news-grid"></div>
+  <div class="pagination" id="pagination"></div>
 </main>
 
 <div class="overlay" id="overlay">
@@ -236,6 +250,10 @@ let currentNews = [];
 let currentCategory = 'top';
 let currentStateFilter = null;
 let currentSearchQuery = '';
+
+const PAGE_SIZE = 12;
+let currentPage = 1;
+let currentNotice = null;
 
 const tabsNav = document.getElementById('tabs-nav');
 const grid = document.getElementById('news-grid');
@@ -294,14 +312,20 @@ document.onclick = () => stateMenu.classList.remove('open');
 // Search
 function doSearch(){
   currentSearchQuery = searchInput.value.trim();
-  currentCategory = 'top';
-  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-  // NOTE: currentStateFilter is intentionally NOT cleared here, so
+  // NOTE: currentCategory and currentStateFilter are intentionally NOT reset here,
+  // so "category + search" (e.g. வணிகம் + "பங்குச் சந்தை") and
   // "state + search" (e.g. Tamil Nadu + "tirupur") combine together.
 
-  document.getElementById('section-title').textContent = currentSearchQuery
-    ? (currentStateFilter ? `"${currentSearchQuery}" + ${currentStateFilter.ta} — தேடல் முடிவுகள்` : `"${currentSearchQuery}" — தேடல் முடிவுகள்`)
-    : 'அண்மைச் செய்திகள்';
+  const catLabel = (NAV_CATEGORIES.find(c => c.key === currentCategory) || {}).label;
+
+  let title = 'அண்மைச் செய்திகள்';
+  if(currentSearchQuery){
+    title = `"${currentSearchQuery}"`;
+    if(currentCategory && currentCategory !== 'top' && currentCategory !== 'india_impact') title += ` + ${catLabel}`;
+    if(currentStateFilter) title += ` + ${currentStateFilter.ta}`;
+    title += ' — தேடல் முடிவுகள்';
+  }
+  document.getElementById('section-title').textContent = title;
 
   fetchNews();
 }
@@ -311,7 +335,7 @@ searchInput.addEventListener('keydown', (e) => { if(e.key === 'Enter') doSearch(
 // ---------- Year / Month setup (static list, NOT derived from fetched news) ----------
 function populateYearMonth(){
   const currentYear = new Date().getFullYear();
-  let yearsHtml = '<option value="">All Year</option>';
+  let yearsHtml = '<option value="">அனைத்து வருடம்</option>';
   for(let y = currentYear; y >= currentYear - 49; y--){
     yearsHtml += `<option value="${y}">${y}</option>`;
   }
@@ -319,7 +343,7 @@ function populateYearMonth(){
 
   const months = ["01","02","03","04","05","06","07","08","09","10","11","12"];
   const mNames = ["ஜனவரி","பிப்ரவரி","மார்ச்","ஏப்ரல்","மே","ஜூன்","ஜூலை","ஆகஸ்ட்","செப்டம்பர்","அக்டோபர்","நவம்பர்","டிசம்பர்"];
-  monthSelect.innerHTML = '<option value="">All Month</option>' + months.map((m, i) => `<option value="${m}">${mNames[i]}</option>`).join('');
+  monthSelect.innerHTML = '<option value="">அனைத்து மாதம்</option>' + months.map((m, i) => `<option value="${m}">${mNames[i]}</option>`).join('');
 }
 
 function buildDateRange(){
@@ -353,8 +377,11 @@ async function fetchNews(){
   const params = new URLSearchParams({ language: lang });
 
   if(currentSearchQuery){
-    // search box text combines with state filter if one is selected
+    // search box text combines with category and/or state filter if selected
     params.set('query', currentSearchQuery);
+    if(currentCategory && currentCategory !== 'top' && currentCategory !== 'india_impact'){
+      params.set('category', currentCategory);
+    }
     if(currentStateFilter) params.set('state', currentStateFilter.en);
   } else if(currentCategory === 'india_impact'){
     params.set('query', INDIA_IMPACT_QUERY);
@@ -369,6 +396,7 @@ async function fetchNews(){
 
   grid.innerHTML = '<div style="grid-column:1/-1; text-align:center; padding:30px;">ஏற்றுகிறது...</div>';
   document.getElementById('result-count').textContent = '';
+  document.getElementById('pagination').innerHTML = '';
 
   try {
     const res = await fetch(`${API_BACKEND_URL}/api/news?${params.toString()}`);
@@ -386,26 +414,38 @@ async function fetchNews(){
     renderList(currentNews, notice);
   } catch (err) {
     grid.innerHTML = `<div style="grid-column:1/-1; padding:20px;" class="err-box">செய்திகளைப் பெறுவதில் பிழை: ${err.message}<br><span style="font-size:11px;">(API plan-ல் date-range archive இல்லனா இந்த error வரலாம்)</span></div>`;
+    document.getElementById('pagination').innerHTML = '';
   }
 }
 
 function renderList(list, notice){
+  currentNews = list;
+  currentNotice = notice;
+  currentPage = 1;
   document.getElementById('result-count').textContent = `${list.length} செய்திகள்`;
+  renderPage();
+}
+
+function renderPage(){
   grid.innerHTML = '';
 
-  if(notice){
+  if(currentNotice){
     const noticeEl = document.createElement('div');
     noticeEl.style.cssText = 'grid-column:1/-1; background:#fff7e0; border:1px solid #d4a017; color:#7a5b00; padding:10px 14px; font-size:12.5px;';
-    noticeEl.textContent = notice;
+    noticeEl.textContent = currentNotice;
     grid.appendChild(noticeEl);
   }
 
-  if(!list.length){
+  if(!currentNews.length){
     grid.innerHTML += '<div style="grid-column:1/-1; text-align:center; padding:30px;">செய்திகள் இல்லை.</div>';
+    renderPaginationControls();
     return;
   }
 
-  list.forEach(item => {
+  const start = (currentPage - 1) * PAGE_SIZE;
+  const pageItems = currentNews.slice(start, start + PAGE_SIZE);
+
+  pageItems.forEach(item => {
     const card = document.createElement('div');
     card.className = 'card';
     card.innerHTML = `
@@ -417,6 +457,35 @@ function renderList(list, notice){
     card.onclick = () => openAnalysis(item);
     grid.appendChild(card);
   });
+
+  renderPaginationControls();
+}
+
+function renderPaginationControls(){
+  const wrap = document.getElementById('pagination');
+  wrap.innerHTML = '';
+
+  const totalPages = Math.ceil(currentNews.length / PAGE_SIZE);
+  if(totalPages <= 1) return;
+
+  const mkBtn = (label, page, disabled, active) => {
+    const b = document.createElement('button');
+    b.textContent = label;
+    b.className = 'page-btn' + (active ? ' active' : '');
+    b.disabled = !!disabled;
+    b.onclick = () => {
+      currentPage = page;
+      renderPage();
+      window.scrollTo({ top: document.querySelector('main').offsetTop - 10, behavior: 'smooth' });
+    };
+    return b;
+  };
+
+  wrap.appendChild(mkBtn('‹ முன்', currentPage - 1, currentPage === 1, false));
+  for(let p = 1; p <= totalPages; p++){
+    wrap.appendChild(mkBtn(String(p), p, false, p === currentPage));
+  }
+  wrap.appendChild(mkBtn('அடுத்து ›', currentPage + 1, currentPage === totalPages, false));
 }
 
 // 4-Deep Analysis Trigger
@@ -430,7 +499,7 @@ async function openAnalysis(item){
   document.getElementById('modal-desc').textContent = item.desc;
   
   overlay.classList.add('open');
-  container.innerHTML = '<div class="loading">🔍...</div>';
+  container.innerHTML = '<div class="loading">🔍 Gemini Pro முழுப் பின்னணி, வரலாறு, அறிவியல் காரணங்களை ஆராய்கிறது...</div>';
 
   try {
     const res = await fetch(`${API_BACKEND_URL}/api/analyze`, {
