@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>வேற்றுமுகம் — இந்திய செய்திகள் & ஆழமான பின்னணி</title>
+<title>இந்திய செய்திகள் & ஆழமான பின்னணி</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Tiro+Tamil:ital@0;1&family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
@@ -499,7 +499,7 @@ async function openAnalysis(item){
   document.getElementById('modal-desc').textContent = item.desc;
   
   overlay.classList.add('open');
-  container.innerHTML = '<div class="loading">🔍 Gemini Pro முழுப் பின்னணி, வரலாறு, அறிவியல் காரணங்களை ஆராய்கிறது...</div>';
+  container.innerHTML = '<div class="loading">🔍...</div>';
 
   try {
     const res = await fetch(`${API_BACKEND_URL}/api/analyze`, {
