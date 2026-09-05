@@ -173,8 +173,8 @@
 </nav>
 
 <div class="filter-strip">
-  <select id="year-select"><option value="">அனைத்து வருடம்</option></select>
-  <select id="month-select"><option value="">அனைத்து மாதம்</option></select>
+  <select id="year-select"><option value="">All Year</option></select>
+  <select id="month-select"><option value="">All Month</option></select>
   <button class="tab-btn" id="reset-btn" style="clip-path:none; padding:5px 10px;">Filter Clear</button>
 
   <input type="text" id="search-input" placeholder="தேடு... (எ.கா: பங்குச் சந்தை)">
@@ -311,7 +311,7 @@ searchInput.addEventListener('keydown', (e) => { if(e.key === 'Enter') doSearch(
 // ---------- Year / Month setup (static list, NOT derived from fetched news) ----------
 function populateYearMonth(){
   const currentYear = new Date().getFullYear();
-  let yearsHtml = '<option value="">அனைத்து வருடம்</option>';
+  let yearsHtml = '<option value="">All Year</option>';
   for(let y = currentYear; y >= currentYear - 49; y--){
     yearsHtml += `<option value="${y}">${y}</option>`;
   }
@@ -319,7 +319,7 @@ function populateYearMonth(){
 
   const months = ["01","02","03","04","05","06","07","08","09","10","11","12"];
   const mNames = ["ஜனவரி","பிப்ரவரி","மார்ச்","ஏப்ரல்","மே","ஜூன்","ஜூலை","ஆகஸ்ட்","செப்டம்பர்","அக்டோபர்","நவம்பர்","டிசம்பர்"];
-  monthSelect.innerHTML = '<option value="">அனைத்து மாதம்</option>' + months.map((m, i) => `<option value="${m}">${mNames[i]}</option>`).join('');
+  monthSelect.innerHTML = '<option value="">All Month</option>' + months.map((m, i) => `<option value="${m}">${mNames[i]}</option>`).join('');
 }
 
 function buildDateRange(){
@@ -430,7 +430,7 @@ async function openAnalysis(item){
   document.getElementById('modal-desc').textContent = item.desc;
   
   overlay.classList.add('open');
-  container.innerHTML = '<div class="loading">🔍 Gemini Pro முழுப் பின்னணி, வரலாறு, அறிவியல் காரணங்களை ஆராய்கிறது...</div>';
+  container.innerHTML = '<div class="loading">🔍...</div>';
 
   try {
     const res = await fetch(`${API_BACKEND_URL}/api/analyze`, {
